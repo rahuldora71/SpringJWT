@@ -1,11 +1,13 @@
 package com.spring.jwt.controller;
 
+import com.spring.jwt.entities.RefreshToken;
 import com.spring.jwt.helper.JwtHelper;
 import com.spring.jwt.models.JwtRequest;
 //import com.spring.jwt.models.JwtResponse;
 import com.spring.jwt.models.JwtResponse;
 import com.spring.jwt.entities.User;
 //import com.spring.jwt.service.UserService;
+import com.spring.jwt.service.RefreshTokenService;
 import com.spring.jwt.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +49,8 @@ public class Home {
     @Autowired
     private UserDetailsService userDetailsService;
 
-
+    @Autowired
+    RefreshTokenService refreshTokenService;
 
     @Autowired
     private AuthenticationManager manager;
@@ -67,7 +70,9 @@ public class Home {
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
 
-        JwtResponse response = JwtResponse.builder().token(token).username(userDetails.getUsername()).build();
+        RefreshToken refreshToken = this.refreshTokenService.createRefreshToken(userDetails.getUsername());
+
+        JwtResponse response = JwtResponse.builder().token(token).refreshToken(refreshToken.getRefreshToken()).username(userDetails.getUsername()).build();
                 // Depricated
 //                JwtResponse.builder()
 //                .jwtToken(token)
