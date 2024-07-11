@@ -7,6 +7,7 @@ import com.spring.jwt.models.JwtRequest;
 import com.spring.jwt.models.JwtResponse;
 import com.spring.jwt.entities.User;
 //import com.spring.jwt.service.UserService;
+import com.spring.jwt.models.RefreshTokenRequest;
 import com.spring.jwt.service.RefreshTokenService;
 import com.spring.jwt.service.UserService;
 import org.slf4j.Logger;
@@ -91,6 +92,20 @@ public class Home {
             throw new BadCredentialsException(" Invalid Username or Password  !!");
         }
 
+    }
+
+
+    @PostMapping("/refresh")
+    public JwtResponse refreshJwtToken(@RequestBody RefreshTokenRequest request){
+
+        RefreshToken refreshToken = refreshTokenService.verifyRefreshToken(request.getRefreshToken());
+
+        User user=refreshToken.getUser();
+        String token = this.helper.generateToken(user);
+        return JwtResponse.builder().refreshToken(refreshToken.getRefreshToken())
+                .token(token)
+                .username(user.getEmail())
+                .build();
     }
 
     @ExceptionHandler(BadCredentialsException.class)

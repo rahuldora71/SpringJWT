@@ -44,6 +44,7 @@ public class JwtSecurityConfig {
                     auth
                             .requestMatchers("/auth/login").permitAll()
                             .requestMatchers("/auth/signup").permitAll()
+                            .requestMatchers("/auth/refresh").permitAll()
                             .anyRequest().authenticated();
 
                 })

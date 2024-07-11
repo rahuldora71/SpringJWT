@@ -18,7 +18,7 @@ public class RefreshTokenService {
     @Autowired
     private UserRepository userRepository;
 
-    private long refreshTokenValidity= 5 * 60 * 60 * 1000;
+    private long refreshTokenValidity=  60 * 1000;
 
 
     public RefreshToken createRefreshToken(String userName) {

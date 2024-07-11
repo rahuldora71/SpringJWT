@@ -1,5 +1,6 @@
 package com.spring.jwt.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Entity
 public class User implements UserDetails {
     @Id
@@ -24,6 +25,7 @@ public class User implements UserDetails {
     private String password;
     private String about;
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private RefreshToken refreshToken;
 
     @Override
